@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDeviceStatus;
 import edu.wpi.first.wpilibj.Timer;
 
-public class pid_test {   \\
+public class pid_test {   
 	
 	private static boolean inited = false;
 	
@@ -15,7 +15,7 @@ public class pid_test {   \\
 	private static final int talon_arm_id = 2;
 	
 	//talon drive
-	private static CANTalon talon_arm;
+	private static CANTalon talon_arm;  \\新增馬達控制器
 	
 	//value
 	private static double BusVoltage[];
@@ -42,28 +42,28 @@ public class pid_test {   \\
 	//end for the PID zone
 	
 	
-	public static void init(){ \\機器人初始畫
+	public static void init(){ //機器人初始畫
 		if(true){
-			talon_arm = new CANTalon(talon_arm_id); \\定義馬達控制器
+			talon_arm = new CANTalon(talon_arm_id); //定義馬達控制器
 			
 			
 			talon_arm.enableControl();  
 			talon_arm.setSafetyEnabled(true);
 			talon_arm.changeControlMode(CANTalon.TalonControlMode.Disabled);
-			talon_arm.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);  \\設定回傳模式
+			talon_arm.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);  //設定回傳模式
 			talon_arm.reverseSensor(false);  
 			talon_arm.configNominalOutputVoltage(+0f, -0f);
 			talon_arm.configPeakOutputVoltage(+12f, -12f);
 			talon_arm.setAllowableClosedLoopErr(0); 
 	        talon_arm.setProfile(0);
-	        talon_arm.setF(0.0);  \\設定PID
+	        talon_arm.setF(0.0);  //設定PID
 	        talon_arm.setP(0.1);
 	        talon_arm.setI(0.0); 
 	        talon_arm.setD(0.0); 
-	        talon_arm.setEncPosition(0);  \\Encoder 歸零
+	        talon_arm.setEncPosition(0);  //Encoder 歸零
 			
 			
-			JoyDrive.init();  \\控制桿初始化
+			JoyDrive.init();  //控制桿初始化
 			BusVoltage = new double[device_num];
 			OutputVoltage = new double[device_num];
 			
@@ -79,7 +79,7 @@ public class pid_test {   \\
 			
 	}
 	
-	public static void teleopPeriodic(){  \\手動模式循環
+	public static void teleopPeriodic(){  //手動模式循環
 		
 		getfeedback();
 		pidcontrol();
@@ -87,7 +87,7 @@ public class pid_test {   \\
 		
 	}
 	
-	public static void getfeedback(){  \\回傳資料
+	public static void getfeedback(){  //回傳資料
 		getencoder();
 		BusVoltage[0] = talon_arm.getBusVoltage();
 		OutputVoltage[0] = talon_arm.getOutputVoltage();
@@ -97,7 +97,7 @@ public class pid_test {   \\
 	public static void pidcontrol(){
 		double leftYstick = JoyDrive.LY;
     	targetPositionRotations = leftYstick * 50.0; /* 50 Rotations in either direction */
-    	talon_arm.changeControlMode(CANTalon.TalonControlMode.Position);
+    	talon_arm.changeControlMode(CANTalon.TalonControlMode.Position);  //設定控制模式為"position"
     	talon_arm.set(targetPositionRotations); /* 50 rotations in either direction */
 	}
 	
@@ -113,8 +113,8 @@ public class pid_test {   \\
 	}
 	
 	@SuppressWarnings("unused")
-	public static void getencoder(){  \\回傳encoder的資料
-		PulseWidthpos = talon_arm.getPulseWidthPosition();  \\回傳位置
+	public static void getencoder(){  //回傳encoder的資料
+		PulseWidthpos = talon_arm.getPulseWidthPosition();  //回傳位置
 		PulseWidthus = talon_arm.getPulseWidthRiseToFallUs();  
 		periodus = talon_arm.getPulseWidthRiseToRiseUs();
 		PulseWidthVel = talon_arm.getPulseWidthVelocity();  
